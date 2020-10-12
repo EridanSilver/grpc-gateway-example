@@ -2,8 +2,12 @@ package main
 
 import (
 	"flag"
-	"github.com/erizaver/grpc-gateway-example/internal/app/user_service/service"
+
+	libService "github.com/erizaver/grpc-gateway-example/internal/app/library_service/service"
+	userService "github.com/erizaver/grpc-gateway-example/internal/app/user_service/service"
+	"github.com/erizaver/grpc-gateway-example/pkg/pb/library"
 	"github.com/erizaver/grpc-gateway-example/pkg/pb/user"
+	"google.golang.org/grpc"
 	"net/http"
 
 	"github.com/golang/glog"
@@ -17,9 +21,16 @@ func run() error {
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	srv := service.NewService()
+	gsrv := grpc.NewServer()
 
-	err := user.RegisterUserServiceHandlerServer(ctx, mux, srv)
+	userSrv := userService.NewService()
+	err := user.RegisterUserServiceHandlerServer(ctx, mux, userSrv)
+	user.RegisterUserServiceServer(gsrv, userSrv)
+
+	libSrv := libService.NewService()
+	err = library.RegisterLibServiceHandlerServer(ctx, mux, libSrv)
+	library.RegisterLibServiceServer(gsrv, libSrv)
+
 	if err != nil {
 		return err
 	}

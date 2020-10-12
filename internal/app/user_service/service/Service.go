@@ -14,6 +14,6 @@ func NewService() *Service {
 
 func (s *Service) GetById(ctx context.Context, req *user.GetByIdRequest) (*user.GetByIdResponse, error) {
 	return &user.GetByIdResponse{
-		Data: "SomeRespData",
+		Data: "Thats some user data",
 	}, nil
 }

@@ -1,4 +1,9 @@
+GET http://localhost:8080/v1/book
+Accept: application/json
+
+###
 GET http://localhost:8080/v1/user/getbyid
 Accept: application/json
 
 ###
+

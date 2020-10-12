@@ -1,0 +1,21 @@
+syntax = "proto3";
+package library;
+
+option go_package = "/pb/library";
+import "google/api/annotations.proto";
+
+service LibService {
+  rpc GetBook(GetBookRequest) returns (GetBookResponse) {
+    option (google.api.http) = {
+      get: "/v1/book" // GET request with variables A and Bar.B in the query path
+    };
+  }
+}
+
+message GetBookRequest {
+  int64 id = 1;
+}
+
+message GetBookResponse {
+  string data = 1;
+}
